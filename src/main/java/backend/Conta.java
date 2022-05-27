@@ -6,7 +6,8 @@ public class Conta {
     private float saldo;
 
     public Conta(int id, float saldo) {
-
+        this.id = id;
+        this.saldo = saldo;
     }
 
     public Conta() {

@@ -3,9 +3,7 @@ package backend;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,27 +13,48 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class ContaManager {
+
     private static ContaManager instance;
-    public final static String JSON_FILE = "_data.json";
+    public final static String DEFAULT_JSON_FILE_PATH = "_data.json";
+    private List<Conta> contas;
+    private String jsonFilePath;
 
-    public List<Conta> contas;
-
-    private ContaManager() {
+    private ContaManager(String jsonFilePath) {
+        this.jsonFilePath = jsonFilePath;
         loadContas();
+    }
+
+    public static ContaManager getInstance(String jsonFilePath) {
+        if (instance == null) {
+            instance = new ContaManager(jsonFilePath != null ? jsonFilePath : DEFAULT_JSON_FILE_PATH);
+        }
+        return instance;
     }
 
     private void loadContas() {
         String jsonStr = readJSONFile();
         Type contasListType = new TypeToken<ArrayList<Conta>>(){}.getType();
         contas = new Gson().fromJson(jsonStr, contasListType);
+
+        if (contas == null)
+            contas = new ArrayList<>();
     }
 
     public String readJSONFile() {
-        Path dir = Paths.get(JSON_FILE);
+        Path p = Paths.get(jsonFilePath);
+
+        if (!Files.exists(p)) {
+            try {
+                Files.createFile(p);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         StringBuilder sb = new StringBuilder();
         Stream<String> content = null;
         try {
-            content = Files.lines(dir);
+            content = Files.lines(p);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +68,7 @@ public class ContaManager {
 
     public void writeJSONFile() {
 
-        Path path = Paths.get(JSON_FILE);
+        Path path = Paths.get(jsonFilePath);
         String jsonString = new Gson().toJson(contas);
         try {
             Files.write(path, jsonString.getBytes());
@@ -58,11 +77,27 @@ public class ContaManager {
         }
     }
 
-    public static ContaManager getInstance() {
-        if (instance == null) {
-            instance = new ContaManager();
-        }
-        return instance;
+    public boolean addConta(int num) {
+
+        if (contaExiste(num))
+            return false;
+
+        contas.add(new Conta(num, 0));
+        persistContas();
+        return true;
+    }
+
+    public boolean removeConta(int num) {
+        contas.removeIf(c -> c.getId() == num);
+        persistContas();
+        return !contaExiste(num);
+    }
+
+    public boolean contaExiste(int num) {
+        for (Conta c : contas)
+            if (c.getId() == num)
+                return true;
+        return false;
     }
 
 }
