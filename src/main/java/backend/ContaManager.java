@@ -100,4 +100,10 @@ public class ContaManager {
         return false;
     }
 
+    public List<Integer> getNumeroTodasContas() {
+        List<Integer> numeroTodasContas = new ArrayList<>();
+        contas.forEach(c -> numeroTodasContas.add(c.getId()));
+        return numeroTodasContas;
+    }
+
 }
