@@ -10,7 +10,10 @@ public class ContaCommand {
 
     @ShellMethod("Para cadastrar uma nova conta")
     public String cadastro(@ShellOption int numConta) {
-        return "Cadastrando conta " + numConta;
+        var r = ContaManager.getInstance( ContaManager.DEFAULT_JSON_FILE_PATH ).addConta(numConta);
+        return r
+                ? "Nova conta (num = " + numConta + ") cadastrada!"
+                : "Ação não permitida: número de conta já cadastrado!";
     }
 
     @ShellMethod("Para verificar o saldo de uma conta")
