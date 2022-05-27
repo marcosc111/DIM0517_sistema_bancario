@@ -106,4 +106,11 @@ public class ContaManager {
         return numeroTodasContas;
     }
 
+    public Conta getConta(int num) {
+        for (Conta c : contas)
+            if (c.getId() == num)
+                return c;
+        return null;
+    }
+
 }

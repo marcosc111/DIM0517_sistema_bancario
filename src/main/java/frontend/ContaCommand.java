@@ -18,8 +18,10 @@ public class ContaCommand {
 
     @ShellMethod("Para verificar o saldo de uma conta")
     public String saldo(@ShellOption int numConta) {
-        int saldo = 0;
-        return "O saldo da conta " + numConta + " é: " + saldo;
+        var c = ContaManager.getInstance( ContaManager.DEFAULT_JSON_FILE_PATH ).getConta(numConta);
+        return c != null
+                ? "O saldo da conta " + numConta + " é: R$" + c.getSaldo()
+                : "Conta não existe!";
     }
 
     @ShellMethod("Para creditar uma conta")
