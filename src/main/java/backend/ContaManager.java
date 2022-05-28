@@ -33,7 +33,8 @@ public class ContaManager {
 
     private void loadContas() {
         String jsonStr = readJSONFile();
-        Type contasListType = new TypeToken<ArrayList<Conta>>(){}.getType();
+        Type contasListType = new TypeToken<ArrayList<Conta>>() {
+        }.getType();
         contas = new Gson().fromJson(jsonStr, contasListType);
 
         if (contas == null)
@@ -111,6 +112,40 @@ public class ContaManager {
             if (c.getId() == num)
                 return c;
         return null;
+    }
+
+    public boolean credito(int numConta, float valor) {
+        var c = getConta(numConta);
+        if (c == null)
+            return false;
+
+        c.setSaldo( c.getSaldo() + valor );
+        persistContas();
+        return true;
+    }
+
+    public boolean debito(int numConta, float valor) {
+        var c = getConta(numConta);
+        if (c == null)
+            return false;
+
+        c.setSaldo( c.getSaldo() - valor );
+        persistContas();
+        return true;
+    }
+
+    public boolean transferencia(int numContaOrigem, int numContaDestino, float valor) {
+        var c1 = getConta(numContaOrigem);
+        var c2 = getConta(numContaDestino);
+
+        if (c1 == null || c2 == null)
+            return false;
+
+        debito(numContaOrigem, valor);
+        credito(numContaDestino, valor);
+
+        persistContas();
+        return true;
     }
 
 }
