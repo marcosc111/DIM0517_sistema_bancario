@@ -129,7 +129,11 @@ public class ContaManager {
         if (c == null)
             return false;
 
-        c.setSaldo( c.getSaldo() - valor );
+        float valorFuturo = c.getSaldo() - valor;
+        if (valorFuturo < 0)
+            return false; // saldo insuficiente
+
+        c.setSaldo( valorFuturo );
         persistContas();
         return true;
     }
@@ -140,6 +144,10 @@ public class ContaManager {
 
         if (c1 == null || c2 == null)
             return false;
+
+        float valorFuturoContaOrigem = c1.getSaldo() - valor;
+        if (valorFuturoContaOrigem < 0)
+            return false; // saldo insuficiente
 
         debito(numContaOrigem, valor);
         credito(numContaDestino, valor);

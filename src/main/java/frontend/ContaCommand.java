@@ -39,28 +39,28 @@ public class ContaCommand {
     @ShellMethod("Para debitar uma conta")
     public String debito(@ShellOption int numConta, @ShellOption float valor) {
         var b = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).debito(numConta, valor);
-        Conta c = null;
-        if (b)
-            c = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numConta);
+        Conta c = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numConta);
         return b
                 ? "Debitando R$" + valor + " na conta " + numConta + "! Novo saldo: " + c.getSaldo() + "!"
-                : "Conta não existe!";
+                :
+                    c == null
+                    ? "Conta não existe!"
+                    : "Saldo insuficiente: " + c.getSaldo();
     }
 
     @ShellMethod("Para fazer uma transferência entre contas")
     public String transferencia(@ShellOption int numContaOrigem, @ShellOption int numContaDestino, @ShellOption float valor) {
         var b = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).transferencia(numContaOrigem, numContaDestino, valor);
-        Conta c1, c2;
-        c1 = c2 = null;
-        if (b) {
-            c1 = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numContaOrigem);
-            c2 = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numContaDestino);
-        }
+        Conta c1 = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numContaOrigem);
+        Conta c2 = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numContaDestino);
         return b
                 ? "Transferindo R$" + valor + " da conta " + numContaOrigem + " para a conta " + numContaDestino + "!\n"
                     + "Novo saldo conta " + c1.getId() + ": " + c1.getSaldo() + "\n"
                     + "Novo saldo conta " + c2.getId() + ": " + c2.getSaldo() + "\n"
-                : "Operaçao invalida! Verifique o numero das contas!";
+                :
+                    c1 == null || c2 == null
+                    ? "Operaçao invalida! Verifique o numero das contas!"
+                    : "Saldo insuficiente na conta de origem: " + c1.getSaldo();
     }
 
     @ShellMethod("Para listar todas as contas")
