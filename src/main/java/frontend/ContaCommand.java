@@ -27,6 +27,10 @@ public class ContaCommand {
 
     @ShellMethod("Para creditar uma conta")
     public String credito(@ShellOption int numConta, @ShellOption float valor) {
+
+        if (valor < 0)
+            return "Valor negativo!";
+
         var b = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).credito(numConta, valor);
         Conta c = null;
         if (b)
@@ -38,6 +42,10 @@ public class ContaCommand {
 
     @ShellMethod("Para debitar uma conta")
     public String debito(@ShellOption int numConta, @ShellOption float valor) {
+
+        if (valor < 0)
+            return "Valor negativo!";
+
         var b = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).debito(numConta, valor);
         Conta c = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numConta);
         return b
@@ -50,6 +58,10 @@ public class ContaCommand {
 
     @ShellMethod("Para fazer uma transferência entre contas")
     public String transferencia(@ShellOption int numContaOrigem, @ShellOption int numContaDestino, @ShellOption float valor) {
+
+        if (valor < 0)
+            return "Valor negativo!";
+
         var b = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).transferencia(numContaOrigem, numContaDestino, valor);
         Conta c1 = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numContaOrigem);
         Conta c2 = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numContaDestino);
