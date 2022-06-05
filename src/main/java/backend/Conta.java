@@ -2,8 +2,8 @@ package backend;
 
 public class Conta {
 
-    private int id;
-    private float saldo;
+    protected int id;
+    protected float saldo;
 
     public Conta(int id, float saldo) {
         this.id = id;
