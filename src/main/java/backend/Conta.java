@@ -11,6 +11,7 @@ public class Conta {
 
     public static final int TIPO_CONTA_NORMAL = 0;
     public static final int TIPO_CONTA_BONUS = 1;
+    public static final int TIPO_CONTA_POUPANCA = 2;
 
     public Conta(int id, float saldo, int tipoConta, int pontuacao) {
         this.id = id;
@@ -61,6 +62,8 @@ public class Conta {
                 return "BONUS";
             case Conta.TIPO_CONTA_NORMAL:
                 return "NORMAL";
+            case Conta.TIPO_CONTA_POUPANCA:
+                return "POUPANÇA";
             default:
                 return "INVÁLIDO";
         }
@@ -70,17 +73,19 @@ public class Conta {
         switch(tipoConta) {
             case Conta.TIPO_CONTA_BONUS:
             case Conta.TIPO_CONTA_NORMAL:
+            case Conta.TIPO_CONTA_POUPANCA:
                 return true;
             default:
                 return false;
         }
     }
 
-    public static int getPontuacaoPorTipoConta(int tipoConta) {
+    public static int getPontuacaoInicialPorTipoConta(int tipoConta) {
         switch(tipoConta) {
             case Conta.TIPO_CONTA_BONUS:
                 return 10;
             case Conta.TIPO_CONTA_NORMAL:
+            case Conta.TIPO_CONTA_POUPANCA:
             default:
                 return -1;
         }

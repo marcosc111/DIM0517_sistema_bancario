@@ -89,4 +89,20 @@ public class ContaCommand {
                 : sb.toString();
     }
 
+    @ShellMethod("Para render juros (exclusivo para conta poupança)")
+    public String renderjuros(@ShellOption int numConta, @ShellOption float taxaJuros) {
+
+        Conta c = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numConta);
+
+        if (c == null)
+            return "Conta inexistente!";
+
+        if (c.getTipoConta() != Conta.TIPO_CONTA_POUPANCA)
+            return "Operação inválida! Conta " + numConta + " não é uma Conta Poupança!";
+
+        ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).renderJuros(numConta, taxaJuros);
+        c = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numConta);
+        return "Juros de " + taxaJuros + "% aplicados! Novo saldo: " + c.getSaldo();
+    }
+
 }
