@@ -9,9 +9,13 @@ import org.springframework.shell.standard.ShellOption;
 @ShellComponent
 public class ContaCommand {
 
-    @ShellMethod("Para cadastrar uma nova conta")
-    public String cadastro(@ShellOption int numConta) {
-        var r = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).addConta(numConta);
+    @ShellMethod("Para cadastrar uma nova conta (conta normal = 0, conta bonus = 1)")
+    public String cadastro(@ShellOption int numConta, @ShellOption int tipoConta) {
+
+        if ( !Conta.checkTipoConta(tipoConta) )
+            return "Tipo conta inválido!";
+
+        var r = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).addConta(numConta, tipoConta);
         return r
                 ? "Nova conta (num = " + numConta + ") cadastrada!"
                 : "Ação não permitida: número de conta já cadastrado!";
@@ -79,7 +83,7 @@ public class ContaCommand {
     public String listar() {
         var numeroTodasContas = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getNumeroTodasContas();
         StringBuilder sb = new StringBuilder();
-        numeroTodasContas.forEach(n -> sb.append("" + n + "\n"));
+        numeroTodasContas.forEach((k, v) -> sb.append("num: " + k + " \t\t|\t\ttipo: " + v + "\n"));
         return numeroTodasContas.isEmpty()
                 ? "Não há contas cadastradas!"
                 : sb.toString();
