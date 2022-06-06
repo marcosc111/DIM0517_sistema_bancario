@@ -91,7 +91,7 @@ public class ContaManager {
         if (contaExiste(num))
             return false;
 
-        int pontos = Conta.getPontuacaoPorTipoConta( tipoConta );
+        int pontos = Conta.getPontuacaoInicialPorTipoConta( tipoConta );
 
         Conta c = new Conta(num, 0, tipoConta, pontos);
         contas.add(c);
@@ -166,6 +166,13 @@ public class ContaManager {
             c2.setPontuacao(c2.getPontuacao() + pontosASomar);
         }
 
+        persistContas();
+        return true;
+    }
+
+    public boolean renderJuros(int numConta, float taxaJuros) {
+        var c = getConta(numConta);
+        c.setSaldo( c.getSaldo() * (1 + (taxaJuros/100)) );
         persistContas();
         return true;
     }
