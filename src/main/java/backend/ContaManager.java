@@ -23,6 +23,8 @@ public class ContaManager {
     private List<Conta> contas;
     private String jsonFilePath;
 
+    private final static int TIPO_OPERACAO_DEBITO = 0;
+    private final static int TIPO_OPERACAO_TRANSFERENCIA = 1;
 
 
     private ContaManager(String jsonFilePath) {
@@ -138,7 +140,13 @@ public class ContaManager {
         if (c == null)
             return false;
 
+        if (c.getTipoConta() == Conta.TIPO_CONTA_BONUS) {
+            int pontosASomar = converterOperacaoEmPontos(TIPO_OPERACAO_DEBITO, valor);
+            c.setPontuacao(c.getPontuacao() + pontosASomar);
+        }
+
         c.setSaldo( c.getSaldo() - valor );
+
         persistContas();
         return true;
     }
@@ -151,10 +159,29 @@ public class ContaManager {
             return false;
 
         debito(numContaOrigem, valor);
-        credito(numContaDestino, valor);
+        c2.setSaldo( c2.getSaldo() + valor ); // credito
+
+        if (c2.getTipoConta() == Conta.TIPO_CONTA_BONUS) {
+            int pontosASomar = converterOperacaoEmPontos(TIPO_OPERACAO_TRANSFERENCIA, valor);
+            c2.setPontuacao(c2.getPontuacao() + pontosASomar);
+        }
 
         persistContas();
         return true;
+    }
+
+    private static int converterOperacaoEmPontos(int tipoOperacao, float valor) {
+        int fator = 0;
+        switch (tipoOperacao) {
+            case TIPO_OPERACAO_DEBITO:
+                fator = 100;
+                break;
+            case TIPO_OPERACAO_TRANSFERENCIA:
+                fator = 200;
+                break;
+        }
+
+        return ((int) valor - (((int) valor) % fator)) / fator;
     }
 
 }
