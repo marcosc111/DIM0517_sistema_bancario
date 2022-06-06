@@ -9,8 +9,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
+
+
 
 public class ContaManager {
 
@@ -18,6 +22,8 @@ public class ContaManager {
     public final static String DEFAULT_JSON_FILE_PATH = "_data.json";
     private List<Conta> contas;
     private String jsonFilePath;
+
+
 
     private ContaManager(String jsonFilePath) {
         this.jsonFilePath = jsonFilePath;
@@ -78,12 +84,15 @@ public class ContaManager {
         }
     }
 
-    public boolean addConta(int num) {
+    public boolean addConta(int num, int tipoConta) {
 
         if (contaExiste(num))
             return false;
 
-        contas.add(new Conta(num, 0));
+        int pontos = Conta.getPontuacaoPorTipoConta( tipoConta );
+
+        Conta c = new Conta(num, 0, tipoConta, pontos);
+        contas.add(c);
         persistContas();
         return true;
     }
@@ -101,10 +110,10 @@ public class ContaManager {
         return false;
     }
 
-    public List<Integer> getNumeroTodasContas() {
-        List<Integer> numeroTodasContas = new ArrayList<>();
-        contas.forEach(c -> numeroTodasContas.add(c.getId()));
-        return numeroTodasContas;
+    public Map<Integer, String> getNumeroTodasContas() {
+        Map<Integer, String> map = new HashMap<>();
+        contas.forEach(c -> map.put(c.getId(), c.getTipoContaString()));
+        return map;
     }
 
     public Conta getConta(int num) {
