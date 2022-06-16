@@ -144,8 +144,12 @@ public class ContaManager {
         if (c == null)
             return false;
 
+        float limiteNegativo = 0;
+        if (c.getTipoConta() == Conta.TIPO_CONTA_NORMAL || c.getTipoConta() == Conta.TIPO_CONTA_BONUS)
+            limiteNegativo = -1000;
+
         float valorFuturo = c.getSaldo() - valor;
-        if (valorFuturo < 0)
+        if (valorFuturo < limiteNegativo)
             return false; // saldo insuficiente
 
         if (c.getTipoConta() == Conta.TIPO_CONTA_BONUS) {
@@ -165,8 +169,12 @@ public class ContaManager {
         if (c1 == null || c2 == null)
             return false;
 
+        float limiteNegativo = 0;
+        if (c1.getTipoConta() == Conta.TIPO_CONTA_NORMAL || c1.getTipoConta() == Conta.TIPO_CONTA_BONUS)
+            limiteNegativo = -1000;
+
         float valorFuturoContaOrigem = c1.getSaldo() - valor;
-        if (valorFuturoContaOrigem < 0)
+        if (valorFuturoContaOrigem < limiteNegativo)
             return false; // saldo insuficiente
 
         debito(numContaOrigem, valor);
