@@ -10,8 +10,13 @@ import org.springframework.shell.standard.ShellOption;
 public class ContaCommand {
 
     @ShellMethod("Para cadastrar uma nova conta")
-    public String cadastro(@ShellOption int numConta) {
-        var r = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).addConta(numConta);
+    public String cadastro(@ShellOption int numConta, @ShellOption(defaultValue = ShellOption.NULL) Float saldoInicial) {
+
+        if (saldoInicial == null)
+            return "Para criação de conta, é necessário informar o saldo inicial!";
+
+        var r = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).addConta(numConta, saldoInicial);
+
         return r
                 ? "Nova conta (num = " + numConta + ") cadastrada!"
                 : "Ação não permitida: número de conta já cadastrado!";

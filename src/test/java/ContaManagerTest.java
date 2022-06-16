@@ -14,14 +14,14 @@ public class ContaManagerTest {
     @Test
     void addContaTest() {
         var cm = ContaManager.getInstance(TEST_JSON_PATH);
-        cm.addConta(456);
+        cm.addConta(456, 0);
         assert(cm.contaExiste(456));
     }
 
     @Test
     void removeContaTest() {
         var cm = ContaManager.getInstance(TEST_JSON_PATH);
-        cm.addConta(321);
+        cm.addConta(321, 0);
         cm.removeConta(321);
         assert(!cm.contaExiste(321));
     }
@@ -32,7 +32,7 @@ public class ContaManagerTest {
 
         cm.removeConta(991);
 
-        cm.addConta(991);
+        cm.addConta(991, 0);
         assert(cm.contaExiste(991));
         cm.debito(991, 500);
         assert(cm.getConta(991).getSaldo() == -500);
@@ -44,7 +44,7 @@ public class ContaManagerTest {
 
         cm.removeConta(992);
 
-        cm.addConta(992);
+        cm.addConta(992, 0);
         assert(cm.contaExiste(992));
         cm.credito(992, 1200);
         cm.credito(992, 520);
@@ -58,8 +58,8 @@ public class ContaManagerTest {
         cm.removeConta(993);
         cm.removeConta(994);
 
-        cm.addConta(993);
-        cm.addConta(994);
+        cm.addConta(993, 0);
+        cm.addConta(994, 0);
         assert(cm.contaExiste(993));
         assert(cm.contaExiste(994));
 

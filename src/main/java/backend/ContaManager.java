@@ -78,12 +78,12 @@ public class ContaManager {
         }
     }
 
-    public boolean addConta(int num) {
+    public boolean addConta(int num, float saldo) {
 
         if (contaExiste(num))
             return false;
 
-        contas.add(new Conta(num, 0));
+        contas.add(new Conta(num, saldo));
         persistContas();
         return true;
     }
