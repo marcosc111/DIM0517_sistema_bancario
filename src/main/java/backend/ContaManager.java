@@ -190,7 +190,7 @@ public class ContaManager {
                 fator = 100;
                 break;
             case TIPO_OPERACAO_TRANSFERENCIA:
-                fator = 200;
+                fator = 150;
                 break;
         }
 
