@@ -87,13 +87,17 @@ public class ContaManager {
     }
 
     public boolean addConta(int num, int tipoConta) {
+        return addConta(num, tipoConta, 0);
+    }
+
+    public boolean addConta(int num, int tipoConta, float saldo) {
 
         if (contaExiste(num))
             return false;
 
         int pontos = Conta.getPontuacaoInicialPorTipoConta( tipoConta );
 
-        Conta c = new Conta(num, 0, tipoConta, pontos);
+        Conta c = new Conta(num, saldo, tipoConta, pontos);
         contas.add(c);
         persistContas();
         return true;

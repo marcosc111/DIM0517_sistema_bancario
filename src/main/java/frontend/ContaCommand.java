@@ -9,13 +9,20 @@ import org.springframework.shell.standard.ShellOption;
 @ShellComponent
 public class ContaCommand {
 
-    @ShellMethod("Para cadastrar uma nova conta (conta normal = 0, conta bonus = 1)")
-    public String cadastro(@ShellOption int numConta, @ShellOption int tipoConta) {
+    @ShellMethod("Para cadastrar uma nova conta (conta normal = 0, conta bonus = 1, conta poupança = 2)")
+    public String cadastro(@ShellOption int numConta, @ShellOption int tipoConta, @ShellOption(defaultValue = ShellOption.NULL) Float saldoInicial) {
 
         if ( !Conta.checkTipoConta(tipoConta) )
             return "Tipo conta inválido!";
 
-        var r = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).addConta(numConta, tipoConta);
+        if (tipoConta == Conta.TIPO_CONTA_POUPANCA) {
+            if (saldoInicial == null) {
+                return "Para criação de conta poupança, é necessário informar o saldo inicial!";
+            }
+        } else
+            saldoInicial = 0.0f;
+
+        var r = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).addConta(numConta, tipoConta, saldoInicial);
         return r
                 ? "Nova conta (num = " + numConta + ") cadastrada!"
                 : "Ação não permitida: número de conta já cadastrado!";
