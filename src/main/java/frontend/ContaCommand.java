@@ -15,12 +15,8 @@ public class ContaCommand {
         if ( !Conta.checkTipoConta(tipoConta) )
             return "Tipo conta inválido!";
 
-        if (tipoConta == Conta.TIPO_CONTA_POUPANCA) {
-            if (saldoInicial == null) {
-                return "Para criação de conta poupança, é necessário informar o saldo inicial!";
-            }
-        } else
-            saldoInicial = 0.0f;
+        if (saldoInicial == null)
+            return "Para criação de conta, é necessário informar o saldo inicial!";
 
         var r = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).addConta(numConta, tipoConta, saldoInicial);
         return r
