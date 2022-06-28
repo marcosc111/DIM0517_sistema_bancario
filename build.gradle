@@ -9,13 +9,15 @@ apply plugin: 'io.spring.dependency-management'
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+ext['junit-jupiter.version'] = '5.8.2'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.3.12.RELEASE'
     implementation group: 'org.springframework.shell', name: 'spring-shell-starter', version: '2.0.0.RELEASE'
@@ -23,7 +25,15 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
+
+    useJUnitPlatform {
+        includeEngines "junit-jupiter"
+        excludeEngines "junit-vintage"
+    }
 }
 
 jar {
