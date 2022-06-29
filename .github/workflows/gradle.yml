@@ -25,14 +25,8 @@ jobs:
       
       - uses: gradle/gradle-build-action@v2
         with:
+          arguments: bootJar
+      
+      - uses: gradle/gradle-build-action@v2
+        with:
           arguments: test
-
-      #- name: Resolve project dependencies
-        #run: ./gradlew --refresh-dependencies
-
-      #- name: Compile
-        #run:  ./gradlew bootJar
-
-      #- name: Run unit tests
-        #run: ./gradlew test
-
