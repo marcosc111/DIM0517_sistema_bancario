@@ -65,9 +65,6 @@ public class ContaManagerTest {
     @ValueSource(ints = { Conta.TIPO_CONTA_NORMAL, Conta.TIPO_CONTA_BONUS, Conta.TIPO_CONTA_POUPANCA })
     void debitarContaTest(int tipoConta) {
 
-        assert(false);
-        assert(false);
-
         System.out.println("Tipo conta: " + Conta.getTipoContaString(tipoConta));
 
         int numConta = 425 + tipoConta; // variacao
