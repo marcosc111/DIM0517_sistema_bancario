@@ -69,6 +69,19 @@ public class Conta {
         }
     }
 
+    public static String getTipoContaString(int tipoConta) {
+        switch(tipoConta) {
+            case Conta.TIPO_CONTA_BONUS:
+                return "BONUS";
+            case Conta.TIPO_CONTA_NORMAL:
+                return "NORMAL";
+            case Conta.TIPO_CONTA_POUPANCA:
+                return "POUPANÇA";
+            default:
+                return "INVÁLIDO";
+        }
+    }
+
     public static boolean checkTipoConta(int tipoConta) {
         switch(tipoConta) {
             case Conta.TIPO_CONTA_BONUS:
