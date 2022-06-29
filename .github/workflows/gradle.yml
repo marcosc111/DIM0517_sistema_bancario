@@ -22,13 +22,17 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+      
+      - uses: gradle/gradle-build-action@v2
+        with:
+          arguments: bootJar
 
-      - name: Resolve project dependencies
-        run: ./gradlew --refresh-dependencies
+      #- name: Resolve project dependencies
+        #run: ./gradlew --refresh-dependencies
 
-      - name: Compile
-        run:  ./gradlew bootJar
+      #- name: Compile
+        #run:  ./gradlew bootJar
 
-      - name: Run unit tests
-        run: ./gradlew test
+      #- name: Run unit tests
+        #run: ./gradlew test
 
