@@ -66,6 +66,7 @@ public class ContaManagerTest {
     void debitarContaTest(int tipoConta) {
 
         assert(false);
+        assert(false);
 
         System.out.println("Tipo conta: " + Conta.getTipoContaString(tipoConta));
 
