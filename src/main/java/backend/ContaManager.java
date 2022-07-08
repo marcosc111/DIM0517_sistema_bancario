@@ -20,8 +20,8 @@ public class ContaManager {
 
     private static ContaManager instance;
     public final static String DEFAULT_JSON_FILE_PATH = "_data.json";
-    private List<Conta> contas;
-    private String jsonFilePath;
+    private transient List<Conta> contas;
+    private transient String jsonFilePath;
 
     private final static int TIPO_OPERACAO_DEBITO = 0;
     private final static int TIPO_OPERACAO_TRANSFERENCIA = 1;
@@ -60,15 +60,15 @@ public class ContaManager {
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        Stream<String> content = null;
+        Stream<String> content;
         try {
             content = Files.lines(p);
+            StringBuilder sb = new StringBuilder();
+            content.forEach(sb::append);
+            return sb.toString();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return null;
         }
-        content.forEach(sb::append);
-        return sb.toString();
     }
 
     private void persistContas() {
@@ -143,9 +143,11 @@ public class ContaManager {
         if (c == null)
             return false;
 
-        float limiteNegativo = 0;
+        float limiteNegativo;
         if (c.getTipoConta() == Conta.TIPO_CONTA_NORMAL || c.getTipoConta() == Conta.TIPO_CONTA_BONUS)
             limiteNegativo = -1000;
+        else
+            limiteNegativo = 0;
 
         float valorFuturo = c.getSaldo() - valor;
         if (valorFuturo < limiteNegativo)
@@ -168,9 +170,11 @@ public class ContaManager {
         if (c1 == null || c2 == null)
             return false;
 
-        float limiteNegativo = 0;
+        float limiteNegativo;
         if (c1.getTipoConta() == Conta.TIPO_CONTA_NORMAL || c1.getTipoConta() == Conta.TIPO_CONTA_BONUS)
             limiteNegativo = -1000;
+        else
+            limiteNegativo = 0;
 
         float valorFuturoContaOrigem = c1.getSaldo() - valor;
         if (valorFuturoContaOrigem < limiteNegativo)
@@ -196,13 +200,16 @@ public class ContaManager {
     }
 
     private static int converterOperacaoEmPontos(int tipoOperacao, float valor) {
-        int fator = 0;
+        int fator;
         switch (tipoOperacao) {
             case TIPO_OPERACAO_DEBITO:
                 fator = 100;
                 break;
             case TIPO_OPERACAO_TRANSFERENCIA:
                 fator = 150;
+                break;
+            default:
+                fator = 0;
                 break;
         }
 

@@ -39,12 +39,12 @@ public class ContaCommand {
             return "Valor negativo!";
 
         var b = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).credito(numConta, valor);
-        Conta c = null;
-        if (b)
-            c = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numConta);
-        return b
-                ? "Creditando R$" + valor + " na conta " + numConta + "! Novo saldo: " + c.getSaldo() + "!"
-                : "Conta não existe!";
+        Conta x = null;
+        if (b) {
+            Conta c = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numConta);
+            return "Creditando R$" + valor + " na conta " + numConta + "! Novo saldo: " + c.getSaldo() + "!";
+        }
+        return "Conta não existe!";
     }
 
     @ShellMethod("Para debitar uma conta")
