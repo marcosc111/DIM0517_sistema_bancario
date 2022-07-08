@@ -2,9 +2,9 @@ name: release workflow
 
 on:
   push:
-    branches: [ release, develop ]
+    branches: [ release ]
   pull_request:
-    branches: [ release, develop ]
+    branches: [ release ]
 
 permissions:
   contents: read
