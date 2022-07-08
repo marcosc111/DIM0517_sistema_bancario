@@ -2,9 +2,9 @@ name: Action sistema bancário
 
 on:
   push:
-    branches: [ release, feature/release_workflow ]
+    branches: [ release ]
   pull_request:
-    branches: [ release, feature/release_workflow ]
+    branches: [ release ]
 
 permissions:
   contents: read
