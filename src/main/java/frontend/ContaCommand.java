@@ -39,7 +39,6 @@ public class ContaCommand {
             return "Valor negativo!";
 
         var b = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).credito(numConta, valor);
-        Conta x = null;
         if (b) {
             Conta c = ContaManager.getInstance(ContaManager.DEFAULT_JSON_FILE_PATH).getConta(numConta);
             return "Creditando R$" + valor + " na conta " + numConta + "! Novo saldo: " + c.getSaldo() + "!";
