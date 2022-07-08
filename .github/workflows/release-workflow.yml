@@ -1,10 +1,10 @@
-name: Action sistema bancário
+name: release workflow
 
 on:
   push:
-    branches: [ release ]
+    branches: [ release, develop ]
   pull_request:
-    branches: [ release ]
+    branches: [ release, develop ]
 
 permissions:
   contents: read
