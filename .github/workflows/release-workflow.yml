@@ -38,3 +38,6 @@ jobs:
           version: '6.40.0'
           analyzeModifiedFilesOnly: false
           rulesets: 'rulesets/default.xml'
+      - name: Check PMD violations
+        if: steps.pmd.outputs.violations != 0
+        run: exit 1
