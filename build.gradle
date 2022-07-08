@@ -45,3 +45,9 @@ jar {
         )
     }
 }
+
+pmd {
+    consoleOutput = true
+    toolVersion = "6.21.0"
+    ruleSets = ["rulesets/default.xml"]
+}
