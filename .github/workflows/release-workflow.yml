@@ -35,5 +35,5 @@ jobs:
       - uses: pmd/pmd-github-action@v1
         id: pmd
         with:
-          version: '6.21.0'
+          version: '6.40.0'
           rulesets: 'rulesets/default.xml'

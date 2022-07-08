@@ -48,6 +48,6 @@ jar {
 
 pmd {
     consoleOutput = true
-    toolVersion = "6.21.0"
+    toolVersion = "6.40.0"
     ruleSets = ["rulesets/default.xml"]
 }
