@@ -29,9 +29,6 @@ jobs:
       - name: Compile
         run:  ./gradlew bootJar
 
-      - name: Run unit tests
-        run: ./gradlew test
-
       - uses: pmd/pmd-github-action@v1
         id: pmd
         with:
@@ -41,3 +38,11 @@ jobs:
       - name: Check PMD violations
         if: steps.pmd.outputs.violations != 0
         run: exit 1
+
+      - name: Run unit tests
+        run: ./gradlew test
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: latest-build
+          path: build/libs/DIM0517_sistema_bancario-1.0-SNAPSHOT.jar

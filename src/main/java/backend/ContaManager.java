@@ -213,7 +213,7 @@ public class ContaManager {
                 break;
         }
 
-        return ((int) valor - (((int) valor) % fator)) / fator;
+        return ((int) valor - ((int) valor) % fator) / fator;
     }
 
 }
