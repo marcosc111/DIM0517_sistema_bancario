@@ -36,4 +36,5 @@ jobs:
         id: pmd
         with:
           version: '6.40.0'
+          analyzeModifiedFilesOnly: false
           rulesets: 'rulesets/default.xml'
