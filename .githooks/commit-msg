@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+PATTERN="^#[[:digit:]]* - .+"
+input_file=$1
+commit_msg=`head -n1 $input_file`
+
+if ! [[ "$commit_msg" =~ $PATTERN ]]; then
+  echo "Invalid commit message. Example of a valid format: \"#11 - Changing main screen message\""
+  exit 1
+fi
+
+readarray -td " - " arr <<< "$commit_msg"
+issue_number_from_commit_msg=${arr[0]:1}
+response=$(curl -s 'https://api.github.com/repos/marcosc111/DIM0517_sistema_bancario/issues')
+readarray -t issues <<< $(jq -r '.[].number' <<< "$response")
+
+for i in "${issues[@]}"
+do
+    if [[ $issue_number_from_commit_msg == $i ]] ; then
+        exit 0
+    fi
+done
+
+echo "Invalid commit message. #[NUMBER] must be the number of an open issue"
+exit 1
